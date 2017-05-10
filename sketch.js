@@ -1,8 +1,9 @@
-let tree, bg = 72, tab;
+let tree, bg, tab;
 function setup () {
 	let i;
 	let canvas = createCanvas (1000, 600);
 	canvas.parent('p5sketch');
+	bg = color('#7e8f7c');
 	background(bg);
 
 	// tab = [62, 77, 19, 84, 25, 86, 98, 52, 93, 12];
@@ -143,6 +144,8 @@ let Node = function (value) {
 	let step = 2;
 	let current = 0;
 	let notMoving = false;
+	let default_bg = color('#3b3738');
+	let moving_bg = color('#c63d0f');
 
 	this.left = null;
 	this.right = null;
@@ -158,7 +161,7 @@ let Node = function (value) {
 	this.final_y = -1;
 
 	this.radius = 25;
-	this.bg = bg;
+	this.bg = default_bg;
 	this.showed = true;
 	this.queue = new Queue();
 
@@ -174,6 +177,7 @@ let Node = function (value) {
 
 	this.update = function () {
 		if (!this.showed) return;
+
 		if (!notMoving) {
 
 			if (this.x === -1) {// if the node have never been displayed yet
@@ -190,6 +194,8 @@ let Node = function (value) {
 					this.from_y = node.y;
 					current = 100;
 				}
+				if (this.left !== null) this.left.update();
+				if (this.right !== null) this.right.update();
 				return;
 			}
 
@@ -199,6 +205,8 @@ let Node = function (value) {
 					this.x = this.final_x;
 					this.y = this.final_y;
 					notMoving = true;
+					if (this.left !== null) this.left.update();
+					if (this.right !== null) this.right.update();
 					return;
 				}
 				this.from_x = this.x;
@@ -226,16 +234,18 @@ let Node = function (value) {
 
 	this.show = function () {
 		if (!this.showed) return;
-		stroke (255);
 		if (this.left !== null && this.left.showed) {
+			stroke (default_bg);
 			line (this.x, this.y, this.left.x, this.left.y);
 			this.left.show();
 		}
 		if (this.right !== null && this.right.showed) {
+			stroke (default_bg);
 			line (this.x, this.y, this.right.x, this.right.y);
 			this.right.show();
 		}
-		fill(this.bg);
+		fill(notMoving ? default_bg : moving_bg);
+		noStroke();
 		ellipse (this.x, this.y, this.radius, this.radius);
 		fill(255);
 		textAlign(CENTER);
