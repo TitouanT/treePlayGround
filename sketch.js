@@ -1,7 +1,7 @@
 let tree, bg = 72, tab;
 function setup () {
 	let i;
-	let canvas = createCanvas (800, 600);
+	let canvas = createCanvas (1000, 600);
 	canvas.parent('p5sketch');
 	background(bg);
 
@@ -20,7 +20,7 @@ function newRandomTab () {
 	tree = new Tree ();
 
 	if (floor(random(100)) < 75) tree.random();
-	else tree.perfect(8);
+	else tree.perfect(6);
 
 	tab = tree.toTab();
 	tree.calcPos();
@@ -140,7 +140,7 @@ let Queue = function () {
 
 let Node = function (value) {
 	let height = 1;
-	let step = 1;
+	let step = 5;
 	let current = 0;
 	let notMoving = false;
 
