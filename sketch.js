@@ -140,7 +140,7 @@ let Queue = function () {
 
 let Node = function (value) {
 	let height = 1;
-	let step = 5;
+	let step = 2;
 	let current = 0;
 	let notMoving = false;
 
